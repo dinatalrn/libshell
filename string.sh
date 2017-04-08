@@ -2,22 +2,27 @@
 
 # echo "MyDirectoryFileLine" | sed -e 's/\([A-Z]\)/-\1/g' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' -e 's/^-//'
 
+# string
 fn_camelize(){
 	sed -e 's/[_\-]\(.\)/-\1/g' -e 's/^-//' -e 's/\-[aA]/A/g' -e 's/\-[bB]/B/g' -e 's/\-[cC]/C/g' -e 's/\-[dD]/D/g' -e 's/\-[eE]/E/g' -e 's/\-[fF]/F/g' -e 's/\-[gG]/G/g' -e 's/\-[hH]/H/g' -e 's/\-[iI]/I/g' -e 's/\-[jJ]/J/g' -e 's/\-[kK]/K/g' -e 's/\-[lL]/L/g' -e 's/\-[mM]/M/g' -e 's/\-[nN]/N/g' -e 's/\-[oO]/O/g' -e 's/\-[pP]/P/g' -e 's/\-[qQ]/Q/g' -e 's/\-[rR]/R/g' -e 's/\-[sS]/S/g' -e 's/\-[tT]/T/g' -e 's/\-[uU]/U/g' -e 's/\-[vV]/V/g' -e 's/\-[wW]/W/g' -e 's/\-[xX]/X/g' -e 's/\-[yY]/Y/g' -e 's/\-[zZ]/Z/g' <<< $1
 }
 
+# string
 fn_lower(){
 	sed -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' <<< $1
 }
 
+# string
 fn_upper(){
 	sed -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/' <<< $1
 }
 
+# separator string
 fn_lower_separeted(){
 	sed -e 's/[_\-]/'$1'/g' -e 's/\([A-Z]\)/'$1'\1/g' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' -e 's/^'$1'//' <<< $2
 }
 
+# string
 underscorize(){
 	# echo "$1" | sed -e 's/\([A-Z]\)/_\1/g' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' -e 's/^_//'
 	if [ $1 ]; then
@@ -30,6 +35,7 @@ underscorize(){
 	fi
 }
 
+# string
 hyphenize(){
 	# echo "$1" | sed -e 's/\([A-Z]\)/-\1/g' -e 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' -e 's/^-//'
 	if [ $1 ]; then
@@ -42,6 +48,7 @@ hyphenize(){
 	fi
 }
 
+# string
 camelize(){
 	if [ $1 ]; then
 		fn_camelize $1
@@ -53,6 +60,7 @@ camelize(){
 	fi
 }
 
+# string
 lower(){
 	if [ $1 ]; then
 		fn_lower $1
@@ -64,6 +72,7 @@ lower(){
 	fi
 }
 
+# string
 upper(){
 	if [ $1 ]; then
 		fn_upper $1
@@ -75,6 +84,7 @@ upper(){
 	fi
 }
 
+# string
 fn_get_filename(){
 	echo "$1" | grep -Eo "([^\.\/]+)\." | sed -E "s/\.$//";
 }
@@ -103,7 +113,6 @@ cake_routes(){
 	BUFFER="$BUFFER \n}); \n";
 	BUFFER="$BUFFER \nPlugin::routes(); \n";
 
-	# echo -e $BUFFER >> $2;
 	echo -e $BUFFER;
 }
 
@@ -123,22 +132,23 @@ cake_controller(){
 
 	BUFFER="$BUFFER \n} \n"
 
-	# echo -e $BUFFER >> $2;
 	echo -e $BUFFER;
 }
 
 fn_test(){
-	cake_routes ../../php ./config/routes.php
-	cake_controller ../../php ./src/Controller/PagesController.php
+	# cake_routes $1 > ./config/routes.php
+	cake_routes $1 
+	# cake_controller $1 > ./src/Controller/PagesController.php
+	cake_controller $1 
 }
 
 
-# read -p "Update $0 (y/N)?" CHOICE
+# read -p "Make your choice!" CHOICE
 # case "$CHOICE" in 
 case "$1" in 
   	test|-t ) 
 		# echo "yes";
-		fn_test;
+		fn_test $2;
 	;;
  	* ) 
 		$@;
