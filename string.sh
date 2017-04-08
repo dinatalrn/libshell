@@ -111,13 +111,13 @@ cake_controller(){
 	BUFFER='<?php ';
 	BUFFER="$BUFFER \n\nnamespace App\Controller; \n\nclass PagesController extends AppController{ \n \n";
 	BUFFER="$BUFFER \tpublic function initialize(){ \n\t\tparent::initialize(); \n\t} \n \n";
-	BUFFER="$BUFFER \tpublic function beforeFilter(\Cake\Event\Event \$event){ \n\t\tparent::beforeFilter(\$event); \n\t} \n \n";
+	BUFFER="$BUFFER \tpublic function beforeFilter(\Cake\Event\Event \$event){ \n\t\tparent::beforeFilter(\$event); \n\t} \n";
     
 	for IT in $1/*; do
 	  	file=`fn_get_filename $IT`;
 	  	if [ ! -s $file ]; then
 	  		# echo "$file -> $(hyphenize $file) -> $(underscorize $file) -> $(camelize $file)";
-	  		BUFFER="$BUFFER \tpublic function $(camelize $file)(){} \n \n";
+	  		BUFFER="$BUFFER \n\tpublic function $(camelize $file)(){} \n";
 	  	fi
 	done
 
