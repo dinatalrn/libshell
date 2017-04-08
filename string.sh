@@ -127,13 +127,20 @@ cake_controller(){
 	echo -e $BUFFER;
 }
 
-cake_routes ../../php ./php/test ./config/routes.php
+fn_test(){
+	cake_routes ../../php ./php/test ./config/routes.php
+	cake_controller ../../php
+}
 
-cake_controller ../../php
 
-# ls ./php | grep -Eo "([^\.\/]+)\." | sed -E "s/\.$//" | camelize;
-
-# underscorize "MyDirectoryFileLine";
-# hyphenize "MyDirectoryFileLine"; 
-# camelize "my_directory_file_line";
-# camelize "my-directory-file-line";
+# read -p "Update $0 (y/N)?" CHOICE
+# case "$CHOICE" in 
+case "$1" in 
+  	test|-t ) 
+		# echo "yes";
+		fn_test;
+	;;
+ 	* ) 
+		$@;
+	;;
+esac
