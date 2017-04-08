@@ -101,7 +101,7 @@ cake_routes(){
 	  		# echo "$file -> $(hyphenize $file) -> $(underscorize $file) -> $(camelize $file)";
 	  		fileUnderscorized=`underscorize $file`;
 	  		if [ $file != $fileUnderscorized ]; then
-	  			echo "# mv $1/$file.ctp $1/$fileUnderscorized.ctp";
+	  			echo "# mv $1$file.ctp $1$fileUnderscorized.ctp";
 	  			lower $file;
 	  			upper $file;
 	  		fi
