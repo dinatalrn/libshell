@@ -91,7 +91,7 @@ cake_routes(){
 	  		# echo "$file -> $(hyphenize $file) -> $(underscorize $file) -> $(camelize $file)";
 	  		fileUnderscorized=`underscorize $file`;
 	  		if [ $file != $fileUnderscorized ]; then
-	  			echo "# cp $1/$file.ctp $2/$fileUnderscorized.ctp";
+	  			echo "# mv $1/$file.ctp $1/$fileUnderscorized.ctp";
 	  			lower $file;
 	  			upper $file;
 	  		fi
@@ -103,7 +103,7 @@ cake_routes(){
 	BUFFER="$BUFFER \n}); \n";
 	BUFFER="$BUFFER \nPlugin::routes(); \n";
 
-	# echo -e $BUFFER >> $3;
+	# echo -e $BUFFER >> $2;
 	echo -e $BUFFER;
 }
 
@@ -123,13 +123,13 @@ cake_controller(){
 
 	BUFFER="$BUFFER \n} \n"
 
-	# echo -e $BUFFER >> $3;
+	# echo -e $BUFFER >> $2;
 	echo -e $BUFFER;
 }
 
 fn_test(){
-	cake_routes ../../php ./php/test ./config/routes.php
-	cake_controller ../../php
+	cake_routes ../../php ./config/routes.php
+	cake_controller ../../php ./src/Controller/PagesController.php
 }
 
 
