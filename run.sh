@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source string;
+THISPATH=$(dirname "$0");
+
+source "$THISPATH/string";
 
 # string
 fn_get_filename(){
