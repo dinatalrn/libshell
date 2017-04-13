@@ -9,9 +9,15 @@ fn_get_filename(){
 	echo "$1" | grep -Eo "([^\.\/]+)\." | sed -E "s/\.$//";
 }
 
+# string
+fn_get_extension(){
+	echo "$1" | grep -Eo "([^\.]+)$";
+}
+
 cake_routes(){
-	BUFFER='<?php \n ';
-	BUFFER="$BUFFER \nuse Cake\Core\Plugin; \nuse Cake\Routing\RouteBuilder; \nuse Cake\Routing\Router; \nuse Cake\Routing\Route\DashedRoute; \n";
+	BUFFER="<?php \n ";
+	BUFFER="$BUFFER \nuse Cake\Core\Plugin; \nuse Cake\Routing\RouteBuilder;";
+	BUFFER="$BUFFER \nuse Cake\Routing\Router; \nuse Cake\Routing\Route\DashedRoute; \n";
 	BUFFER="$BUFFER \nRouter::defaultRouteClass(DashedRoute::class); \n";
 	BUFFER="$BUFFER \nRouter::scope('/', function (RouteBuilder \$routes) { \n";
 
@@ -21,7 +27,13 @@ cake_routes(){
 	  		# echo "$file -> $(hyphenize $file) -> $(underscorize $file) -> $(camelize $file)";
 	  		fileUnderscorized=`underscorize $file`;
 	  		if [ $file != $fileUnderscorized ]; then
-	  			echo "# mv $1$file.ctp $1$fileUnderscorized.ctp";
+	  			ext=`fn_get_extension $IT`;
+	  			if [ ! -s $2 ]; then
+	  				mv "$1$file.$ext" "$1$fileUnderscorized.ctp";
+		  			# echo "#2 mv $1$file.$ext $1$fileUnderscorized.ctp";
+	  			else
+		  			echo "# mv $1$file.$ext $1$fileUnderscorized.ctp";
+		  		fi
 	  			lower $file;
 	  			upper $file;
 	  		fi
@@ -37,7 +49,7 @@ cake_routes(){
 }
 
 cake_controller(){
-	BUFFER='<?php ';
+	BUFFER="<?php ";
 	BUFFER="$BUFFER \n\nnamespace App\Controller; \n\nclass PagesController extends AppController{ \n \n";
 	BUFFER="$BUFFER \tpublic function initialize(){ \n\t\tparent::initialize(); \n\t} \n \n";
 	BUFFER="$BUFFER \tpublic function beforeFilter(\Cake\Event\Event \$event){ \n\t\tparent::beforeFilter(\$event); \n\t} \n";
@@ -56,21 +68,26 @@ cake_controller(){
 }
 
 fn_test(){
-	# cake_routes $1 > ./config/routes.php
-	cake_routes $1 
-	# cake_controller $1 > ./src/Controller/PagesController.php
+	cake_routes $1
 	cake_controller $1 
+}
+
+fn_run(){
+	cake_routes $1 true > ./config/routes.php
+	cake_controller $1 > ./src/Controller/PagesController.php
 }
 
 
 # read -p "Make your choice!" CHOICE
 # case "$CHOICE" in 
 case "$1" in 
-  	test|-t ) 
-		# echo "yes";
+  	run) 
+		fn_run $2;
+	;;
+ 	test|-t)
 		fn_test $2;
 	;;
- 	* ) 
-		$@;
+	* )
+		echo "Invalid call!";
 	;;
 esac
