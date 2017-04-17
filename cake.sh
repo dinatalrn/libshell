@@ -2,7 +2,7 @@
 
 THISPATH=$(dirname "$0");
 
-source "$THISPATH/string";
+source "$THISPATH/lib/string";
 
 # string
 fn_get_filename(){
@@ -12,6 +12,14 @@ fn_get_filename(){
 # string
 fn_get_extension(){
 	echo "$1" | grep -Eo "([^\.]+)$";
+}
+
+fn_route(){
+	tmp=`hyphenize $1`;
+	if [ $tmp = 'index' ]; then
+		tmp='';
+	fi
+	echo $tmp;
 }
 
 cake_routes(){
@@ -35,7 +43,7 @@ cake_routes(){
 		  			echo "# mv $1$file.$ext $1$fileUnderscorized.ctp";
 		  		fi
 	  		fi
-	  		BUFFER="$BUFFER \n\t\$routes->connect('/$(hyphenize $file)', ['controller' => 'Pages', 'action' => '$(camelize $file)']);";
+	  		BUFFER="$BUFFER \n\t\$routes->connect('/$(fn_route $file)', ['controller' => 'Pages', 'action' => '$(camelize $file)']);";
 	  	fi
 	done
 
