@@ -34,8 +34,6 @@ cake_routes(){
 	  			else
 		  			echo "# mv $1$file.$ext $1$fileUnderscorized.ctp";
 		  		fi
-	  			lower $file;
-	  			upper $file;
 	  		fi
 	  		BUFFER="$BUFFER \n\t\$routes->connect('/$(hyphenize $file)', ['controller' => 'Pages', 'action' => '$(camelize $file)']);";
 	  	fi
@@ -82,7 +80,7 @@ fn_run(){
 # case "$CHOICE" in 
 case "$1" in 
   	run) 
-		fn_run $2;
+		fn_run ./src/Template/Pages/;
 	;;
  	test|-t)
 		fn_test $2;
