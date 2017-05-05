@@ -38,5 +38,6 @@ main() {
    echo "Running..."
 }
 
+
 self_update $ARGS
 main
