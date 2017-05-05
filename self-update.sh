@@ -8,25 +8,31 @@ ARGS="$@"
 BRANCH="master"
 
 self_update_git() {
+    
     cd $SCRIPTPATH
     git fetch
 
     # [ $(git diff --name-only origin/$BRANCH | grep $SCRIPTNAME | wc -l | grep -Eo "\d+") -ne 0 ] && {
     [ $(git diff --name-only origin/$BRANCH | wc -l | grep -Eo "\d+") -ne 0 ] && {
+        
         echo "Found a new version of me, updating myself..."
+        
         git pull --force
         git checkout -f $BRANCH
         git pull --force
+
         echo "Running the new version..."
         exec "$SCRIPTNAME" "$ARGS"
 
         # Now exit this old instance
         exit 1
     }
+
     echo "Already the latest version."
 }
 
 self_update_http(){
+    
     if [ $(wget --output-document=$SCRIPT.tmp $1/$SCRIPT) ]; then
         echo "error on wget on $SCRIPT update" 
         exit 1
