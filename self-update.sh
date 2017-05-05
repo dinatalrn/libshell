@@ -2,11 +2,12 @@
 
 SCRIPTNAME="$0"
 SCRIPT=$(readlink -n "$SCRIPTNAME")
+
 SCRIPTPATH=$(dirname "$SCRIPT")
 ARGS="$@"
 BRANCH="master"
 
-self_update() {
+self_update_git() {
     cd $SCRIPTPATH
     git fetch
 
@@ -39,5 +40,5 @@ main() {
 }
 
 
-self_update $ARGS
+self_update_git $ARGS
 main
