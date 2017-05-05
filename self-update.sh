@@ -24,6 +24,15 @@ self_update() {
     echo "Already the latest version."
 }
 
+self_update_http(){
+    if [ $(wget --output-document=$SCRIPT.tmp $1/$SCRIPT) ]; then
+        echo "error on wget on $SCRIPT update" 
+        exit 1
+    fi
+
+    mv $SCRIPT.tmp $SCRIPT
+}
+
 main() {
    echo "Running..."
 }
