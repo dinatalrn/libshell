@@ -41,10 +41,20 @@ self_update_http(){
     mv $SCRIPT.tmp $SCRIPT
 }
 
+self_update_test(){
+    echo "Call: self_update_test $@";
+}
+
 main() {
    echo "Running..."
 }
 
-
-self_update_git $ARGS
-main
+case "$1" in 
+    git|http|test) 
+        self_update_$ARGS
+        main
+    ;;
+    * )
+        echo "Invalid call!";
+    ;;
+esac
