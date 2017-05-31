@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function os_type(){
+	case `uname` in
+		Linux )
+		     LINUX=1
+		     which yum && { echo 'centos'; return; }
+		     which zypper && { echo 'opensuse'; return; }
+		     which apt-get && { echo 'debian'; return; }
+		     ;;
+		Darwin )
+		     DARWIN=1
+		     echo 'osx';
+		     ;;
+		* )
+		     # Handle AmgiaOS, CPM, and modified cable modems here.
+		     ;;
+	esac
+}
